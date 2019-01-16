@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
-import model.TimeEntry;
-
 @SpringBootApplication
 @ComponentScan("controller")
 @EnableAutoConfiguration(exclude = { ErrorMvcAutoConfiguration.class })
@@ -21,9 +19,7 @@ public class SpringBootDemoProjectApplication {
 		System.out.println("test");
 		System.out.println("test");
 		System.out.println("test");
-		TimeEntry t1 = new TimeEntry("test", "test");
 
-		System.out.println(t1.getTime());
 	}
 
 }

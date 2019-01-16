@@ -24,4 +24,11 @@ public class TimeEntryController {
 		return "Greetings from Spring Boot!";
 	}
 
+	@RequestMapping("/timeEntries")
+	public TimeEntryController[] timeEntries() {
+
+		return null;
+
+	}
+
 }
