@@ -1,16 +1,23 @@
 package controller;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import harvest.api.time.TimeEntry;
 import model.Greeting;
 
 @RestController
@@ -44,7 +51,28 @@ public class TimeEntryController {
 			Unirest.setDefaultHeader("Harvest-Account-ID", HARVEST_ACCOUNT_ID);
 
 			HttpResponse<String> response = Unirest.get(HARVEST_URL + "/time_entries").asString();
+			HttpResponse<JsonNode> responseJson = Unirest.get(HARVEST_URL + "/time_entries").asJson();
 
+			JSONObject object = responseJson.getBody().getObject();
+//			JSONObject location = object.getJSONObject("time_entries");
+
+			JSONArray timeEntries = object.getJSONArray("time_entries");
+			JSONObject firstTimeEntry = timeEntries.getJSONObject(0);
+			System.out.println(timeEntries.length());
+
+			try {
+				ObjectMapper mapper = new ObjectMapper();
+				TimeEntry convertedTimeEntry = mapper.readValue(firstTimeEntry.toString(), TimeEntry.class);
+				System.out.println("converted TimeEntry info: " + convertedTimeEntry.toString());
+			} catch (JsonParseException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			responseJson.getBody();
 			return response.getBody();
 
 		} catch (UnirestException e) {
