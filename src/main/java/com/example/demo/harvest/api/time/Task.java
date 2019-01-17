@@ -1,5 +1,5 @@
 
-package harvest.api.time;
+package com.example.demo.harvest.api.time;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "id", "name" })
-public class User {
+public class Task {
 
 	@JsonProperty("id")
 	private Integer id;
@@ -30,7 +30,7 @@ public class User {
 	 * No args constructor for use in serialization
 	 * 
 	 */
-	public User() {
+	public Task() {
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class User {
 	 * @param id
 	 * @param name
 	 */
-	public User(Integer id, String name) {
+	public Task(Integer id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -54,7 +54,7 @@ public class User {
 		this.id = id;
 	}
 
-	public User withId(Integer id) {
+	public Task withId(Integer id) {
 		this.id = id;
 		return this;
 	}
@@ -69,7 +69,7 @@ public class User {
 		this.name = name;
 	}
 
-	public User withName(String name) {
+	public Task withName(String name) {
 		this.name = name;
 		return this;
 	}
@@ -84,7 +84,7 @@ public class User {
 		this.additionalProperties.put(name, value);
 	}
 
-	public User withAdditionalProperty(String name, Object value) {
+	public Task withAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 		return this;
 	}
@@ -105,10 +105,10 @@ public class User {
 		if (other == this) {
 			return true;
 		}
-		if ((other instanceof User) == false) {
+		if ((other instanceof Task) == false) {
 			return false;
 		}
-		User rhs = ((User) other);
+		Task rhs = ((Task) other);
 		return new EqualsBuilder().append(id, rhs.id).append(additionalProperties, rhs.additionalProperties)
 				.append(name, rhs.name).isEquals();
 	}

@@ -1,5 +1,5 @@
 
-package harvest.api.time;
+package com.example.demo.harvest.api.time;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "id", "name" })
-public class Client {
+public class User {
 
 	@JsonProperty("id")
 	private Integer id;
@@ -30,7 +30,7 @@ public class Client {
 	 * No args constructor for use in serialization
 	 * 
 	 */
-	public Client() {
+	public User() {
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class Client {
 	 * @param id
 	 * @param name
 	 */
-	public Client(Integer id, String name) {
+	public User(Integer id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -54,7 +54,7 @@ public class Client {
 		this.id = id;
 	}
 
-	public Client withId(Integer id) {
+	public User withId(Integer id) {
 		this.id = id;
 		return this;
 	}
@@ -69,7 +69,7 @@ public class Client {
 		this.name = name;
 	}
 
-	public Client withName(String name) {
+	public User withName(String name) {
 		this.name = name;
 		return this;
 	}
@@ -84,7 +84,7 @@ public class Client {
 		this.additionalProperties.put(name, value);
 	}
 
-	public Client withAdditionalProperty(String name, Object value) {
+	public User withAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 		return this;
 	}
@@ -105,10 +105,10 @@ public class Client {
 		if (other == this) {
 			return true;
 		}
-		if ((other instanceof Client) == false) {
+		if ((other instanceof User) == false) {
 			return false;
 		}
-		Client rhs = ((Client) other);
+		User rhs = ((User) other);
 		return new EqualsBuilder().append(id, rhs.id).append(additionalProperties, rhs.additionalProperties)
 				.append(name, rhs.name).isEquals();
 	}

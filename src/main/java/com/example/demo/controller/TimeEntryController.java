@@ -1,14 +1,16 @@
-package controller;
+package com.example.demo.controller;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.harvest.api.time.TimeEntry;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,9 +18,6 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-
-import harvest.api.time.TimeEntry;
-import model.Greeting;
 
 @RestController
 public class TimeEntryController {
@@ -30,11 +29,7 @@ public class TimeEntryController {
 	public static final String HARVEST_ACCOUNT_ID = "706371";
 	public static final String HARVEST_USER_AGENT = "Harvest API Example";
 	public static final String HARVEST_AUTHORISATION = "Bearer 1135070.pt.30-WLK8yelBHjjYKSYR1JvWSx0K5FR1JCzK_CLwt7FHimzkGgPAJ6hXdgwSof16bBGLnh75RJHaMllznuCwVuA";
-
-	@RequestMapping("/greeting")
-	public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return new Greeting(counter.incrementAndGet(), String.format(template, name));
-	}
+	private static final Logger log = LoggerFactory.getLogger(TimeEntryController.class);
 
 	@RequestMapping("/")
 	public String index() {
@@ -54,18 +49,21 @@ public class TimeEntryController {
 			HttpResponse<JsonNode> responseJson = Unirest.get(HARVEST_URL + "/time_entries").asJson();
 
 			JSONObject object = responseJson.getBody().getObject();
-//			JSONObject location = object.getJSONObject("time_entries");
 
 			JSONArray timeEntries = object.getJSONArray("time_entries");
 			JSONObject firstTimeEntry = timeEntries.getJSONObject(0);
-			System.out.println(timeEntries.length());
 
 			try {
 				ObjectMapper mapper = new ObjectMapper();
 				TimeEntry convertedTimeEntry = mapper.readValue(firstTimeEntry.toString(), TimeEntry.class);
 				System.out.println("converted TimeEntry info: " + convertedTimeEntry.toString());
+//				TimeEntry t = timeEntryRepository.save(convertedTimeEntry);
+//				for (TimeEntry timeEntry : timeEntryRepository.findAll()) {
+//					log.info(timeEntry.toString());
+//				}
+
 			} catch (JsonParseException e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 			} catch (JsonMappingException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -79,7 +77,7 @@ public class TimeEntryController {
 			e.printStackTrace();
 		}
 
-		return null;
+		return "not found";
 
 	}
 
