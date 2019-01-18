@@ -44,19 +44,26 @@ public class TimeEntryController {
 
 	@RequestMapping("/relation")
 	public String relationTest() {
-		TestOther testOther1 = new TestOther(1, "calvin");
+		testOtherRepository.deleteAll();
+		testRepository.deleteAll();
+
+		TestOther testOther1 = new TestOther(999, "calvin");
 
 		TestOther result1 = testOtherRepository.save(testOther1);
 
-		TestHasOne test1 = new TestHasOne(1, "swinnen", testOther1);
+		TestHasOne test1 = new TestHasOne(1, "swinnen", result1);
+		TestHasOne test2 = new TestHasOne(1, "swinnen", result1);
+		TestHasOne test3 = new TestHasOne(1, "swinnen", result1);
 
 		TestHasOne restult2 = testRepository.save(test1);
+		TestHasOne restult3 = testRepository.save(test2);
+		TestHasOne restult4 = testRepository.save(test3);
 
 		Iterable<TestHasOne> resultFromDb1 = testRepository.findAll();
-		return "Greetings from Spring Boot!";
+		return resultFromDb1.toString();
 	}
 
-	@RequestMapping("/test")
+	@RequestMapping("/timeEntry")
 	public String test() {
 		HttpResponse<JsonNode> jsonResponse;
 

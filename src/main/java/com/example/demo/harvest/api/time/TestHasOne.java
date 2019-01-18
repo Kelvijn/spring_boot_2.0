@@ -23,7 +23,7 @@ public class TestHasOne {
 	private String name;
 
 	@ManyToOne
-	@JoinColumn(name = "testOther_id")
+	@JoinColumn(name = "testOther_harvest_id")
 	@JsonBackReference
 	private TestOther testOther;
 
