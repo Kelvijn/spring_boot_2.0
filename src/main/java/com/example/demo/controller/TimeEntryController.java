@@ -5,12 +5,15 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.harvest.api.time.TestHasOne;
+import com.example.demo.harvest.api.time.TestOther;
 import com.example.demo.harvest.api.time.TimeEntry;
+import com.example.demo.repository.TestHasOneRepository;
+import com.example.demo.repository.TestOtherRepository;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +25,10 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 @RestController
 public class TimeEntryController {
 
+	@Autowired
+	private TestHasOneRepository testRepository;
+	@Autowired
+	private TestOtherRepository testOtherRepository;
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 
@@ -29,10 +36,23 @@ public class TimeEntryController {
 	public static final String HARVEST_ACCOUNT_ID = "706371";
 	public static final String HARVEST_USER_AGENT = "Harvest API Example";
 	public static final String HARVEST_AUTHORISATION = "Bearer 1135070.pt.30-WLK8yelBHjjYKSYR1JvWSx0K5FR1JCzK_CLwt7FHimzkGgPAJ6hXdgwSof16bBGLnh75RJHaMllznuCwVuA";
-	private static final Logger log = LoggerFactory.getLogger(TimeEntryController.class);
 
 	@RequestMapping("/")
 	public String index() {
+		return "Greetings from Spring Boot!";
+	}
+
+	@RequestMapping("/relation")
+	public String relationTest() {
+		TestOther testOther1 = new TestOther(1, "calvin");
+
+		TestOther result1 = testOtherRepository.save(testOther1);
+
+		TestHasOne test1 = new TestHasOne(1, "swinnen", testOther1);
+
+		TestHasOne restult2 = testRepository.save(test1);
+
+		Iterable<TestHasOne> resultFromDb1 = testRepository.findAll();
 		return "Greetings from Spring Boot!";
 	}
 
