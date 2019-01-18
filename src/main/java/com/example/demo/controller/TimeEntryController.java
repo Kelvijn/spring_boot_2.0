@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.json.JSONArray;
@@ -59,6 +60,7 @@ public class TimeEntryController {
 		TestHasOne restult3 = testRepository.save(test2);
 		TestHasOne restult4 = testRepository.save(test3);
 
+		List<TestHasOne> list = testRepository.findByTestOther(result1);
 		Iterable<TestHasOne> resultFromDb1 = testRepository.findAll();
 		return resultFromDb1.toString();
 	}
